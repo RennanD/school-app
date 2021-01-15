@@ -62,6 +62,8 @@ export const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      maxWidth: 1240,
+      margin: 'auto',
     },
     activeLink: {
       color: '#1976d2',
