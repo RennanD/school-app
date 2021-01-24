@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { DeckOutlined, SchoolOutlined } from '@material-ui/icons';
+import {
+  DeckOutlined,
+  SchoolOutlined,
+  ClassOutlined,
+} from '@material-ui/icons';
 
 const links = [
   {
@@ -12,6 +16,11 @@ const links = [
     title: 'Séries',
     path: '/series/list',
     icon: <SchoolOutlined />,
+  },
+  {
+    title: 'Turmas',
+    path: '/classes/list',
+    icon: <ClassOutlined />,
   },
 ];
 

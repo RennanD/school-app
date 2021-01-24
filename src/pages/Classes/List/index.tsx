@@ -16,7 +16,7 @@ import { format, parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-duplicates
 import ptBr from 'date-fns/locale/pt-BR';
 
-import { SeriesProps } from './interfaces';
+import { ClassProps } from './interfaces';
 import api from '../../../services/api';
 
 const useStyles = makeStyles({
@@ -30,24 +30,24 @@ const formatedStatus = {
   inactive: 'Inativo',
 };
 
-const ListSeries: React.FC = () => {
+const ListClasses: React.FC = () => {
   const classes = useStyles();
 
-  const [series, setSeries] = useState<SeriesProps[]>([]);
+  const [series, setSeries] = useState<ClassProps[]>([]);
 
   useEffect(() => {
     function loadSeries() {
-      api.get('/series').then(respose => {
-        const data = respose.data.map((seriesItem: SeriesProps) => ({
-          ...seriesItem,
+      api.get('/classes').then(respose => {
+        const data = respose.data.map((classItem: ClassProps) => ({
+          ...classItem,
           formatedDate: format(
-            parseISO(seriesItem.created_at),
+            parseISO(classItem.created_at),
             "dd 'de' MMM 'de' yyyy",
             {
               locale: ptBr,
             },
           ),
-          status: formatedStatus[seriesItem.status],
+          status: formatedStatus[classItem.status],
         }));
 
         setSeries(data);
@@ -64,7 +64,10 @@ const ListSeries: React.FC = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="right">Nome da Série</TableCell>
+            <TableCell align="right">Nome da Turma</TableCell>
+            <TableCell align="right">Código da Turma</TableCell>
+            <TableCell align="right">Turno</TableCell>
+            <TableCell align="right">Série da Turma</TableCell>
             <TableCell align="right">Staus</TableCell>
             <TableCell align="right">Data de Criação</TableCell>
           </TableRow>
@@ -76,6 +79,9 @@ const ListSeries: React.FC = () => {
                 {seriesItem.id}
               </TableCell>
               <TableCell align="right">{seriesItem.name}</TableCell>
+              <TableCell align="right">{seriesItem.code}</TableCell>
+              <TableCell align="right">{seriesItem.shift}</TableCell>
+              <TableCell align="right">{seriesItem.series.name}</TableCell>
               <TableCell align="right">{seriesItem.status}</TableCell>
               <TableCell align="right">{seriesItem.formatedDate}</TableCell>
             </TableRow>
@@ -86,4 +92,4 @@ const ListSeries: React.FC = () => {
   );
 };
 
-export default ListSeries;
+export default ListClasses;

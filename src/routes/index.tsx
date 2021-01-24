@@ -3,6 +3,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 
 import Home from '../pages/Home';
 import ListSeries from '../pages/Series/List';
+import ListClasses from '../pages/Classes/List';
 
 // import { Container } from './styles';
 
@@ -14,6 +15,7 @@ const Routes: React.FC = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/series/list" component={ListSeries} />
+        <Route path="/classes/list" component={ListClasses} />
       </Switch>
     </BrowserRouter>
   );
