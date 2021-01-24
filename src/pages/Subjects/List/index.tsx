@@ -16,8 +16,11 @@ import { format, parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-duplicates
 import ptBr from 'date-fns/locale/pt-BR';
 
-import { SubjectsProps } from './interfaces';
+import MoreOptions from '../../../components/MoreOptions';
+
 import api from '../../../services/api';
+
+import { SubjectsProps } from './interfaces';
 
 const useStyles = makeStyles({
   table: {
@@ -67,6 +70,7 @@ const SubjectsList: React.FC = () => {
             <TableCell align="right">Nome da Disciplina</TableCell>
             <TableCell align="right">Staus</TableCell>
             <TableCell align="right">Data de Criação</TableCell>
+            <TableCell align="right">Mais Opções</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -78,6 +82,9 @@ const SubjectsList: React.FC = () => {
               <TableCell align="right">{subject.name}</TableCell>
               <TableCell align="right">{subject.status}</TableCell>
               <TableCell align="right">{subject.formattedDate}</TableCell>
+              <TableCell align="right">
+                <MoreOptions options={['Visualizar', 'Deletar']} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

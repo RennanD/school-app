@@ -16,8 +16,11 @@ import { format, parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-duplicates
 import ptBr from 'date-fns/locale/pt-BR';
 
-import { ClassProps } from './interfaces';
+import MoreOptions from '../../../components/MoreOptions';
+
 import api from '../../../services/api';
+
+import { ClassProps } from './interfaces';
 
 const useStyles = makeStyles({
   table: {
@@ -70,6 +73,7 @@ const ListClasses: React.FC = () => {
             <TableCell align="right">Série da Turma</TableCell>
             <TableCell align="right">Staus</TableCell>
             <TableCell align="right">Data de Criação</TableCell>
+            <TableCell align="right">Mais opções</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,6 +88,9 @@ const ListClasses: React.FC = () => {
               <TableCell align="right">{seriesItem.series.name}</TableCell>
               <TableCell align="right">{seriesItem.status}</TableCell>
               <TableCell align="right">{seriesItem.formatedDate}</TableCell>
+              <TableCell align="right">
+                <MoreOptions options={['Visualizar', 'Deletar']} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

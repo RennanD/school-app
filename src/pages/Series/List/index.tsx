@@ -18,6 +18,7 @@ import ptBr from 'date-fns/locale/pt-BR';
 
 import { SeriesProps } from './interfaces';
 import api from '../../../services/api';
+import MoreOptions from '../../../components/MoreOptions';
 
 const useStyles = makeStyles({
   table: {
@@ -67,6 +68,7 @@ const ListSeries: React.FC = () => {
             <TableCell align="right">Nome da Série</TableCell>
             <TableCell align="right">Staus</TableCell>
             <TableCell align="right">Data de Criação</TableCell>
+            <TableCell align="right">Mais opções</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -78,6 +80,9 @@ const ListSeries: React.FC = () => {
               <TableCell align="right">{seriesItem.name}</TableCell>
               <TableCell align="right">{seriesItem.status}</TableCell>
               <TableCell align="right">{seriesItem.formatedDate}</TableCell>
+              <TableCell align="right">
+                <MoreOptions options={['Visualizar', 'Deletar']} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
