@@ -4,6 +4,7 @@ import {
   DeckOutlined,
   SchoolOutlined,
   ClassOutlined,
+  SubjectOutlined,
 } from '@material-ui/icons';
 
 const links = [
@@ -21,6 +22,11 @@ const links = [
     title: 'Turmas',
     path: '/classes/list',
     icon: <ClassOutlined />,
+  },
+  {
+    title: 'Disciplinas',
+    path: '/subjects/list',
+    icon: <SubjectOutlined />,
   },
 ];
 
