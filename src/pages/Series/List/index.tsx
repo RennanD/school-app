@@ -8,6 +8,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Grid,
+  Typography,
 } from '@material-ui/core';
 
 // eslint-disable-next-line import/no-duplicates
@@ -16,9 +18,13 @@ import { format, parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-duplicates
 import ptBr from 'date-fns/locale/pt-BR';
 
-import { SeriesProps } from './interfaces';
-import api from '../../../services/api';
 import MoreOptions from '../../../components/MoreOptions';
+import AddSeriesModal from '../Add';
+
+import api from '../../../services/api';
+
+import { SeriesProps } from './interfaces';
+import TableSkeleton from '../../../components/TableSkeleton';
 
 const useStyles = makeStyles({
   table: {
@@ -27,17 +33,19 @@ const useStyles = makeStyles({
 });
 
 const formatedStatus = {
-  active: 'Ativo',
-  inactive: 'Inativo',
+  active: 'Ativa',
+  inactive: 'Inativa',
 };
 
 const ListSeries: React.FC = () => {
   const classes = useStyles();
 
   const [series, setSeries] = useState<SeriesProps[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     function loadSeries() {
+      setLoading(true);
       api.get('/series').then(respose => {
         const data = respose.data.map((seriesItem: SeriesProps) => ({
           ...seriesItem,
@@ -52,42 +60,84 @@ const ListSeries: React.FC = () => {
         }));
 
         setSeries(data);
+        setLoading(false);
       });
     }
 
     loadSeries();
   }, []);
 
+  if (loading) {
+    return (
+      <>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 30,
+          }}
+        >
+          <Typography variant="h4" component="h4">
+            Listagem de Séries
+          </Typography>
+          <AddSeriesModal />
+        </div>
+        <TableContainer component={Paper}>
+          <TableSkeleton />
+        </TableContainer>
+      </>
+    );
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Nome da Série</TableCell>
-            <TableCell align="right">Staus</TableCell>
-            <TableCell align="right">Data de Criação</TableCell>
-            <TableCell align="right">Mais opções</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {series.map(seriesItem => (
-            <TableRow key={String(seriesItem.id)}>
-              <TableCell component="th" scope="row">
-                {seriesItem.id}
-              </TableCell>
-              <TableCell align="right">{seriesItem.name}</TableCell>
-              <TableCell align="right">{seriesItem.status}</TableCell>
-              <TableCell align="right">{seriesItem.formatedDate}</TableCell>
-              <TableCell align="right">
-                <MoreOptions options={['Visualizar', 'Deletar']} />
-              </TableCell>
+    <Grid item xs={12}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 30,
+        }}
+      >
+        <Typography variant="h4" component="h4">
+          Listagem de Séries
+        </Typography>
+        <AddSeriesModal />
+      </div>
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="caption table">
+          {!series.length && (
+            <caption>Ainda não existem séries cadastradas</caption>
+          )}
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="right">Nome da Série</TableCell>
+              <TableCell align="right">Staus</TableCell>
+              <TableCell align="right">Data de Criação</TableCell>
+              <TableCell align="right">Mais opções</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {series.map(seriesItem => (
+              <TableRow key={String(seriesItem.id)}>
+                <TableCell component="th" scope="row">
+                  {seriesItem.id}
+                </TableCell>
+                <TableCell align="right">{seriesItem.name}</TableCell>
+                <TableCell align="right">{seriesItem.status}</TableCell>
+                <TableCell align="right">{seriesItem.formatedDate}</TableCell>
+                <TableCell align="right">
+                  <MoreOptions options={['Visualizar', 'Deletar']} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grid>
   );
 };
 

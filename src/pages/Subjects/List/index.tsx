@@ -63,7 +63,9 @@ const SubjectsList: React.FC = () => {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="caption table">
-        <caption>Listagem das disciplinas do sistema</caption>
+        {!subjects.length && (
+          <caption>Ainda não existem disciplinas cadastradas</caption>
+        )}
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>

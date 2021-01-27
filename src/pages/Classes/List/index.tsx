@@ -63,7 +63,9 @@ const ListClasses: React.FC = () => {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
+        {!series.length && (
+          <caption>Ainda não existem turmas cadastradas</caption>
+        )}
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
