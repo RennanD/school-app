@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Snackbar,
@@ -10,25 +10,34 @@ import {
   TextField,
   Button,
   DialogTitle,
+  MenuItem,
+  InputLabel,
+  Grid,
+  Select,
 } from '@material-ui/core';
 
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 import api from '../../../services/api';
 
-export interface State extends SnackbarOrigin {
+import { SeriesProps } from '../../Series/List/interfaces';
+
+interface State extends SnackbarOrigin {
   open: boolean;
 }
 
-const AddSeriesModal: React.FC = () => {
+const AddClassesModal: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-  const [seriesName, setSeriesName] = useState('');
-  const [error, setError] = useState('');
+  const [className, setClassName] = useState('');
+  const [seriesId, setSeriesId] = useState<number>();
+  // const [error] = useState('');
   const [state, setState] = React.useState<State>({
     open: false,
     vertical: 'top',
     horizontal: 'right',
   });
+
+  const [series, setSeries] = useState<SeriesProps[]>([]);
 
   const { vertical, horizontal } = state;
 
@@ -40,21 +49,16 @@ const AddSeriesModal: React.FC = () => {
     setOpen(false);
     setState({ ...state, open: false });
   };
+
   const handleRegisterSeries = async () => {
-    if (!seriesName) {
-      setError('Digite o nome da série');
-    } else {
-      await api.post('/series', {
-        name: seriesName,
-      });
-      setOpen(false);
-      setState({
-        open: true,
-        vertical: 'top',
-        horizontal: 'right',
-      });
-    }
+    console.log(className);
   };
+
+  useEffect(() => {
+    api.get('/series').then(response => {
+      setSeries(response.data);
+    });
+  }, []);
 
   function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -78,17 +82,35 @@ const AddSeriesModal: React.FC = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Exercitationem vel nisi ipsam voluptate molestias.
           </DialogContentText>
-          <TextField
-            error={!!error}
-            helperText={error && error}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Nome da série"
-            type="text"
-            fullWidth
-            onChange={e => setSeriesName(e.target.value)}
-          />
+
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={seriesId}
+                onChange={e => setSeriesId(e.target.value as number)}
+              >
+                {series.map(seriesItem => (
+                  <MenuItem value={seriesItem.id}>{seriesItem.name}</MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                // error={!!error}
+                // helperText={error && error}
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Nome da série"
+                type="text"
+                fullWidth
+                onChange={e => setClassName(e.target.value)}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
@@ -115,4 +137,4 @@ const AddSeriesModal: React.FC = () => {
   );
 };
 
-export default AddSeriesModal;
+export default AddClassesModal;

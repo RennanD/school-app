@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Typography,
 } from '@material-ui/core';
 
 // eslint-disable-next-line import/no-duplicates
@@ -17,6 +18,7 @@ import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
 
 import MoreOptions from '../../../components/MoreOptions';
+import AddClassesModal from '../Add';
 
 import api from '../../../services/api';
 
@@ -61,43 +63,58 @@ const ListClasses: React.FC = () => {
   }, []);
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="caption table">
-        {!series.length && (
-          <caption>Ainda não existem turmas cadastradas</caption>
-        )}
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Nome da Turma</TableCell>
-            <TableCell align="right">Código da Turma</TableCell>
-            <TableCell align="right">Turno</TableCell>
-            <TableCell align="right">Série da Turma</TableCell>
-            <TableCell align="right">Staus</TableCell>
-            <TableCell align="right">Data de Criação</TableCell>
-            <TableCell align="right">Mais opções</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {series.map(seriesItem => (
-            <TableRow key={String(seriesItem.id)}>
-              <TableCell component="th" scope="row">
-                {seriesItem.id}
-              </TableCell>
-              <TableCell align="right">{seriesItem.name}</TableCell>
-              <TableCell align="right">{seriesItem.code}</TableCell>
-              <TableCell align="right">{seriesItem.shift}</TableCell>
-              <TableCell align="right">{seriesItem.series.name}</TableCell>
-              <TableCell align="right">{seriesItem.status}</TableCell>
-              <TableCell align="right">{seriesItem.formatedDate}</TableCell>
-              <TableCell align="right">
-                <MoreOptions options={['Visualizar', 'Deletar']} />
-              </TableCell>
+    <>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 30,
+        }}
+      >
+        <Typography variant="h4" component="h4">
+          Listagem de Turmas
+        </Typography>
+        <AddClassesModal />
+      </div>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="caption table">
+          {!series.length && (
+            <caption>Ainda não existem turmas cadastradas</caption>
+          )}
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="right">Nome da Turma</TableCell>
+              <TableCell align="right">Código da Turma</TableCell>
+              <TableCell align="right">Turno</TableCell>
+              <TableCell align="right">Série da Turma</TableCell>
+              <TableCell align="right">Staus</TableCell>
+              <TableCell align="right">Data de Criação</TableCell>
+              <TableCell align="right">Mais opções</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {series.map(seriesItem => (
+              <TableRow key={String(seriesItem.id)}>
+                <TableCell component="th" scope="row">
+                  {seriesItem.id}
+                </TableCell>
+                <TableCell align="right">{seriesItem.name}</TableCell>
+                <TableCell align="right">{seriesItem.code}</TableCell>
+                <TableCell align="right">{seriesItem.shift}</TableCell>
+                <TableCell align="right">{seriesItem.series.name}</TableCell>
+                <TableCell align="right">{seriesItem.status}</TableCell>
+                <TableCell align="right">{seriesItem.formatedDate}</TableCell>
+                <TableCell align="right">
+                  <MoreOptions options={['Visualizar', 'Deletar']} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 
