@@ -14,6 +14,11 @@ const links = [
     icon: <DeckOutlined />,
   },
   {
+    title: 'Disciplinas',
+    path: '/subjects/list',
+    icon: <SubjectOutlined />,
+  },
+  {
     title: 'Séries',
     path: '/series/list',
     icon: <SchoolOutlined />,
@@ -22,11 +27,6 @@ const links = [
     title: 'Turmas',
     path: '/classes/list',
     icon: <ClassOutlined />,
-  },
-  {
-    title: 'Disciplinas',
-    path: '/subjects/list',
-    icon: <SubjectOutlined />,
   },
 ];
 

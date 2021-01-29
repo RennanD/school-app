@@ -7,6 +7,13 @@ import {
 
 export const cards = [
   {
+    title: 'Disciplinas',
+    description: 'Liste ou crie disciplinas por este card.',
+    list: '/subjects/list',
+    create: '/subjects/create',
+    banner: subjectsBanner,
+  },
+  {
     title: 'Séries',
     description: 'Liste ou crie séries de forma fácil por este card.',
     list: '/series/list',
@@ -19,13 +26,6 @@ export const cards = [
     list: '/classes/list',
     create: '/classes/create',
     banner: classesBanner,
-  },
-  {
-    title: 'Disciplinas',
-    description: 'Liste ou crie disciplinas por este card.',
-    list: '/subjects/list',
-    create: '/subjects/create',
-    banner: subjectsBanner,
   },
   {
     title: 'Alunos',
